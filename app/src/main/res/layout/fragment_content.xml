@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.bolo1.beijinwisdom.activity.view.NoScrollViewPager
+        android:id="@+id/vp_content_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+    </com.bolo1.beijinwisdom.activity.view.NoScrollViewPager>
+    <RadioGroup
+        android:id="@+id/rg_grop"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_tab_bg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            android:checked="true"
+            style="@style/RadioButton_home"
+            android:drawableTop="@drawable/radio_home_bg"
+            android:text="@string/home_page" />
+
+        <RadioButton
+            android:id="@+id/rb_news"
+            style="@style/RadioButton_home"
+            android:drawableTop="@drawable/radio_news_bg"
+            android:text="@string/news_page" />
+
+        <RadioButton
+            android:id="@+id/rb_smart"
+            style="@style/RadioButton_home"
+            android:drawableTop="@drawable/radio_smartservice_bg"
+            android:text="@string/wit_service" />
+
+        <RadioButton
+            android:id="@+id/rb_gov"
+            style="@style/RadioButton_home"
+            android:drawableTop="@drawable/radio_gov_bg"
+            android:text="@string/govaffairs" />
+
+        <RadioButton
+            android:id="@+id/rb_setting"
+            style="@style/RadioButton_home"
+            android:drawableTop="@drawable/radio_setting_bg"
+            android:text="@string/setting_page" />
+
+    </RadioGroup>
+</LinearLayout>

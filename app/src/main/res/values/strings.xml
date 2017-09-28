@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">智慧北京</string>
+    <string name="bt_start">开始体验</string>
+    <string name="home_page">首页</string>
+    <string name="news_page">新闻中心</string>
+    <string name="wit_service">智慧服务</string>
+    <string name="setting_page">设置</string>
+    <string name="govaffairs">政务</string>
+</resources>

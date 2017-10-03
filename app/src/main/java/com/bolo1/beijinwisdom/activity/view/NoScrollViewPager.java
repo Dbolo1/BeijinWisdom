@@ -13,9 +13,16 @@ public class NoScrollViewPager extends ViewPager {
     public NoScrollViewPager(Context context) {
         super(context);
     }
+
     public NoScrollViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return true;

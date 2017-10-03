@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BeijinWisdom.iml" filepath="$PROJECT_DIR$/BeijinWisdom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ViewPagerlibrary/ViewPagerlibrary.iml" filepath="$PROJECT_DIR$/ViewPagerlibrary/ViewPagerlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/exampleListActivity/exampleListActivity.iml" filepath="$PROJECT_DIR$/exampleListActivity/exampleListActivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />

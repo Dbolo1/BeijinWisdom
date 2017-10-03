@@ -30,4 +30,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(path: ':slidingMenuLibrary')
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
 }

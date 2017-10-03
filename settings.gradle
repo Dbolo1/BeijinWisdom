@@ -1,3 +1,4 @@
 include ':app', ':library'
 include ':slidingMenuLibrary'
 include ':exampleListActivity'
+include ':ViewPagerlibrary'

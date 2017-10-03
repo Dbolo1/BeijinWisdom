@@ -20,7 +20,7 @@ public class ConstantValue {
     /**
      * 服务器地址
      */
-    public static String NEW_SERVICE_URL="Http://192.168.26.1/zhbj/" ;
+    public static String NEW_SERVICE_URL="Http://192.168.0.112/zhbj/" ;
     /**
      * 相关消息文件
      */

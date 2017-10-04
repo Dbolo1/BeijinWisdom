@@ -19,6 +19,7 @@ import com.bolo1.beijinwisdom.activity.domain.NewsMenu;
 import com.bolo1.beijinwisdom.activity.domain.NewsTabBean;
 import com.bolo1.beijinwisdom.activity.util.CacheUtil;
 import com.bolo1.beijinwisdom.activity.util.ConstantValue;
+import com.bolo1.beijinwisdom.activity.view.PullRefreshListView;
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -46,7 +47,7 @@ public class TabDetailPager extends BaseDetailMenuPager {
     @ViewInject(R.id.indicator)
     private CirclePageIndicator indicator;
     @ViewInject(R.id.lv_news)
-    private ListView listView;
+    private PullRefreshListView listView;
 
     private String url;
     private ArrayList<NewsTabBean.TopNews> newsTabData;
@@ -64,6 +65,12 @@ public class TabDetailPager extends BaseDetailMenuPager {
         View viewHeader = View.inflate(mActivity,R.layout.list_news_header,null);
         ViewUtils.inject(this,viewHeader);
         listView.addHeaderView(viewHeader);
+        listView.setOnRefreshListener(new PullRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDataServer();
+            }
+        });
         return view;
     }
 
@@ -87,12 +94,14 @@ public class TabDetailPager extends BaseDetailMenuPager {
                 String result = responseInfo.result;
                 CacheUtil.setCache(mActivity, url, result);
                 processData(result);
+                listView.onRefreshComplete(true);
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
                 e.printStackTrace();
                 Toast.makeText(mActivity, s, Toast.LENGTH_SHORT).show();
+                listView.onRefreshComplete(false);
             }
         });
     }

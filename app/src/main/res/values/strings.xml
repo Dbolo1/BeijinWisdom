@@ -6,4 +6,7 @@
     <string name="wit_service">智慧服务</string>
     <string name="setting_page">设置</string>
     <string name="govaffairs">政务</string>
+    <string name="PULL_REFRESH">下拉刷新</string>
+    <string name="RELESEA_REFRESH">释放刷新</string>
+    <string name="REFRESHING">正在刷新...</string>
 </resources>

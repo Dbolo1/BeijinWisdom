@@ -2,11 +2,15 @@ package com.bolo1.beijinwisdom.activity.view;
 
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -21,7 +25,7 @@ import java.util.Date;
  * Created by 菠萝 on 2017/10/4.
  */
 
-public class PullRefreshListView extends ListView {
+public class PullRefreshListView extends ListView implements AbsListView.OnScrollListener {
     private static final int STATE_PULL_TO_REFRESH = 1;
     private static final int STATE_RELESEA_TO_REFRESH = 2;
     private static final int STATE_REFRESHING = 3;
@@ -36,23 +40,42 @@ public class PullRefreshListView extends ListView {
     private RotateAnimation animationUp;
     private RotateAnimation animationDown;
     private int padding;
-
+    private static final String tag = "PullRefreshListView";
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mHeadView.setPadding(0, -mHeadViewHeight, 0, 0);
+            tv_refresh_state.setText(R.string.PULL_REFRESH);
+            pb_refresh.setVisibility(INVISIBLE);
+            iv_arrow_refresh.setVisibility(VISIBLE);
+            mCurrentState = STATE_PULL_TO_REFRESH;
+        }
+    };
+    private View footView;
+    private int dy;
+    private int footViewHeight;
 
     public PullRefreshListView(Context context) {
         super(context);
         initHeadListView();
+        initFootListView();
     }
 
     public PullRefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initHeadListView();
+        initFootListView();
     }
 
     public PullRefreshListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initHeadListView();
+        initFootListView();
     }
 
+    /**
+     * 加载头布局
+     */
     public void initHeadListView() {
         mHeadView = View.inflate(getContext(), R.layout.pull_to_refresh, null);
         this.addHeaderView(mHeadView);
@@ -66,6 +89,21 @@ public class PullRefreshListView extends ListView {
         mHeadView.setPadding(0, -mHeadViewHeight, 0, 0);
         initAnimation();
     }
+
+    /**
+     * 加载脚布局
+     */
+    private void initFootListView() {
+        footView = View.inflate(getContext(), R.layout.pull_footview, null);
+        footView.measure(0, 0);
+        //获得脚布局高度
+        footViewHeight = footView.getMeasuredHeight();
+        footView.setPadding(0, -footViewHeight, 0, 0);
+        //对脚布局进行监听
+        this.addFooterView(footView);
+        this.setOnScrollListener(this);
+    }
+
     //触摸判断
 
     @Override
@@ -86,9 +124,10 @@ public class PullRefreshListView extends ListView {
                     break;
                 }
                 int endY = (int) ev.getY();
-                int dy = endY - startY;
+                dy = endY - startY;
                 int firstVisiblePosition = getFirstVisiblePosition();
                 if (dy > 0 && firstVisiblePosition == 0) {
+                    Log.d(tag,"进入刷新状态");
                     //拉出头listview
                     padding = dy - mHeadViewHeight;
                     mHeadView.setPadding(0, padding, 0, 0);
@@ -108,7 +147,9 @@ public class PullRefreshListView extends ListView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (padding > 0 && mCurrentState != STATE_REFRESHING) {
+                if (padding > 0 && mCurrentState == STATE_RELESEA_TO_REFRESH) {
+                    Log.d(tag,"当前panding = dy  -  高度 此时必须大于0"+padding);
+                    Log.d(tag, "进入正在刷新");
                     mHeadView.setPadding(0, 0, 0, 0);
                     mCurrentState = STATE_REFRESHING;
                     //4.进行回调
@@ -117,6 +158,7 @@ public class PullRefreshListView extends ListView {
                     }
                     refreshState();
                 } else if (padding < 0 && mCurrentState == STATE_PULL_TO_REFRESH) {
+                    //还原位置
                     mHeadView.setPadding(0, -mHeadViewHeight, 0, 0);
                 }
                 break;
@@ -174,9 +216,34 @@ public class PullRefreshListView extends ListView {
 
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        //对脚布局进行滑动监听
+        if (scrollState == SCROLL_STATE_IDLE) {
+            //空闲时候
+            int LastPosition = getLastVisiblePosition();
+            if (LastPosition == getCount() - 1) {
+                setSelection(getCount()-1);
+                footView.setPadding(0, 0, 0, 0);
+                isLoadMore=true;
+                if (mListener != null) {
+                    mListener.onLoadMore();
+
+                }
+                Log.d(tag, "加载更多...");
+            }
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
+
     //1 .回调接口刷新
     public interface OnRefreshListener {
         public void onRefresh();
+        public void onLoadMore();
     }
 
     //2.设置监听回调事件
@@ -186,16 +253,19 @@ public class PullRefreshListView extends ListView {
 
     //3 设置监听事件对象
     private OnRefreshListener mListener;
+    // 设置是否加载更多
+    private boolean isLoadMore;
 
     //收起控件
     public void onRefreshComplete(boolean success) {
-        mHeadView.setPadding(0, -mHeadViewHeight, 0, 0);
-        tv_refresh_state.setText(R.string.PULL_REFRESH);
-        pb_refresh.setVisibility(INVISIBLE);
-        iv_arrow_refresh.setVisibility(VISIBLE);
-        mCurrentState = STATE_PULL_TO_REFRESH;
-        if (success) {
-            getCurrentTime();
+        if(!isLoadMore) {
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+            if (success) {
+                getCurrentTime();
+            }
+        }else{
+            footView.setPadding(0,-footViewHeight,0,0);
+            isLoadMore=false;
         }
     }
 

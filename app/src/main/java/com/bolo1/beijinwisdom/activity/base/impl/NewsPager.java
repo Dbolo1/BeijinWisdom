@@ -98,7 +98,7 @@ public class NewsPager extends BasePager {
         baseDetailMenuPagers = new ArrayList<BaseDetailMenuPager>();
         baseDetailMenuPagers.add(new NewsMenuDetailPager(mActivity,newsData.data.get(0).children));
         baseDetailMenuPagers.add(new TopicMenuDetailPager(mActivity));
-        baseDetailMenuPagers.add(new PhotosMenuDetailPager(mActivity));
+        baseDetailMenuPagers.add(new PhotosMenuDetailPager(mActivity,im_photos));
         baseDetailMenuPagers.add(new InteractMenuDetailPager(mActivity));
 
         //给新闻详情页设置默认页
@@ -113,9 +113,11 @@ public class NewsPager extends BasePager {
         fl_content.addView(view);
         baseDetailMenuPager.initData();
 
-
+            if(baseDetailMenuPager instanceof PhotosMenuDetailPager){
+                im_photos.setVisibility(View.VISIBLE);
+            }else{
+                im_photos.setVisibility(View.INVISIBLE);
+            }
         tv_bar_title.setText(newsData.data.get(position).title);
     }
-
-
 }

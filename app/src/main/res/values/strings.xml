@@ -9,4 +9,13 @@
     <string name="PULL_REFRESH">下拉刷新</string>
     <string name="RELESEA_REFRESH">释放刷新</string>
     <string name="REFRESHING">正在刷新...</string>
+    <string name="PULL_MORE">加载更多...</string>
+    <string name="SETTING_TYPESIZE">设置字体</string>
+    <string name="CANCLE">取消</string>
+    <string name="CONFIRM">确定</string>
+    <string name="SUPERBIG_FONT">超大字体</string>
+    <string name="BIG_FONT">大字体</string>
+    <string name="NORMAL_FONT">正常字体</string>
+    <string name="MIN_FONT">小字体</string>
+    <string name="SUPERMIN_FONT">超小字体</string>
 </resources>

@@ -20,9 +20,18 @@ public class ConstantValue {
     /**
      * 服务器地址
      */
-    public static String NEW_SERVICE_URL="Http://192.168.0.112/zhbj/" ;
+    public static String NEW_SERVICE_URL="Http://175.0.78.23/zhbj/" ;
     /**
      * 相关消息文件
      */
     public static String NEWS_URL=NEW_SERVICE_URL+"categories.json";
+    public static String PHOTOS_URL=NEW_SERVICE_URL+ "/photos/photos_1.json";
+
+    public static String READ_IDS="read_ids";
+    /**
+     * 设置字体的key
+     */
+    public static String FONT_SIZE="font_size";
+
+
 }

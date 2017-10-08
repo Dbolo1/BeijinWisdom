@@ -17,7 +17,8 @@ import com.bolo1.beijinwisdom.activity.MainActivity;
 import com.bolo1.beijinwisdom.activity.util.ConstantValue;
 import com.bolo1.beijinwisdom.activity.util.Sputil;
 
-import java.util.ArrayList;
+import cn.sharesdk.framework.ShareSDK;
+
 
 public class SplashActivity extends Activity {
 

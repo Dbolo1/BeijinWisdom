@@ -21,11 +21,11 @@ public class Sputil {
         return sp.getString(key, defValue);
     }
 
-    public static void putString(Context ctx, String key, String defValue) {
+    public static void putString(Context ctx, String key, String Value) {
         if (sp == null) {
             sp = ctx.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
-        sp.edit().putString(key, defValue).commit();
+        sp.edit().putString(key, Value).commit();
     }
 
 
